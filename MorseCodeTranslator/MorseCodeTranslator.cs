@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace MorseCodeTranslator
 {
@@ -70,24 +66,34 @@ namespace MorseCodeTranslator
             {'Ü', "..--"}
         };
 
-        public static string ToMorse(string input)
+        private static Dictionary<string, char> _morseToText = new Dictionary<string, char>();
+
+        static MorseCodeTranslator()
+        {
+            foreach( KeyValuePair<char, string> code in _textToMorse )
+            {
+                _morseToText.Add( code.Value, code.Key );
+            }
+        }
+
+        public static string ToMorse( string input )
         {
             List<string> output = new List<string>(input.Length);
 
-            foreach(char character in input.ToUpper())
+            foreach( char character in input.ToUpper() )
             {
                 try
                 {
                     string morseCode = _textToMorse[character];
-                    output.Add(morseCode);
+                    output.Add( morseCode );
                 }
-                catch(KeyNotFoundException)
+                catch( KeyNotFoundException )
                 {
-                    output.Add("!");
+                    output.Add( "!" );
                 }
             }
 
-            return string.Join(" ", output);
+            return string.Join( " ", output );
         }
     }
 }
